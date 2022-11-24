@@ -11,6 +11,7 @@ import com.hmdp.service.IUserService;
 import com.hmdp.utils.RegexUtils;
 import com.hmdp.utils.SendSmsUtil;
 import com.hmdp.utils.SystemConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpSession;
  * @since 2021-12-22
  */
 @Service
+@Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Override
@@ -34,17 +36,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return Result.fail("手机号格式错误");
         }
         // 3.如果符合，生成验证码
-        String code = RandomUtil.randomNumbers(6);
+        // String code = RandomUtil.randomNumbers(6);
+        String code = "123456";
 
         // 4.保存验证码到session
         session.setAttribute("code"+phone,code);
         // 5.发送验证码
-        String[] phoneNumber = new String[1];
-        String[] templateParam = new String[2];
-        phoneNumber[0] = phone;
-        templateParam[0] = code;
-        templateParam[1] = "5";
-        SendSmsUtil.sendSms(phoneNumber,templateParam);
+        // String[] phoneNumber = new String[1];
+        // String[] templateParam = new String[2];
+        // phoneNumber[0] = phone;
+        // templateParam[0] = code;
+        // templateParam[1] = "5";
+        // SendSmsUtil.sendSms(phoneNumber,templateParam);
+        log.info("发送验证码："+code);
         return Result.ok();
     }
 

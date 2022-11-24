@@ -33,7 +33,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 4.如果存在，则保存到ThreadLocal
         UserHolder.saveUser((User) user);
         // 5.放行
-        return false;
+        return true;
     }
 
     /**
