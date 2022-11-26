@@ -1,10 +1,30 @@
 package com.hmdp.utils;
 
+/**
+ * @author xuyang.li
+ * @date 2022/11/26 15:47
+ */
 public class RedisConstants {
+
+    /**
+     * 登录的验证码key
+     */
     public static final String LOGIN_CODE_KEY = "login:code:";
+
+    /**
+     * 登录验证码的过期时间
+     */
     public static final Long LOGIN_CODE_TTL = 2L;
+
+    /**
+     * 保存登录信息的key
+     */
     public static final String LOGIN_USER_KEY = "login:token:";
-    public static final Long LOGIN_USER_TTL = 36000L;
+
+    /**
+     * 用户登录的过期时间
+     */
+    public static final Long LOGIN_USER_TTL = 30L;
 
     public static final Long CACHE_NULL_TTL = 2L;
 

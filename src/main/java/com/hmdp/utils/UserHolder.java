@@ -1,5 +1,6 @@
 package com.hmdp.utils;
 
+import com.hmdp.dto.UserDTO;
 import com.hmdp.entity.User;
 
 /**
@@ -9,13 +10,13 @@ import com.hmdp.entity.User;
  * @date 2022/11/24 1:22
  */
 public class UserHolder {
-    private static final ThreadLocal<User> tl = new ThreadLocal<>();
+    private static final ThreadLocal<UserDTO> tl = new ThreadLocal<>();
 
-    public static void saveUser(User user){
+    public static void saveUser(UserDTO user){
         tl.set(user);
     }
 
-    public static User getUser(){
+    public static UserDTO getUser(){
         return tl.get();
     }
 
