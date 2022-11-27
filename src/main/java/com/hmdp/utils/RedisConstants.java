@@ -29,7 +29,15 @@ public class RedisConstants {
     public static final Long CACHE_NULL_TTL = 2L;
 
     public static final Long CACHE_SHOP_TTL = 30L;
+    /**
+     * 商铺详细信息缓存
+     */
     public static final String CACHE_SHOP_KEY = "cache:shop:";
+
+    /**
+     * 首页商铺类型缓存
+     */
+    public static final String CACHE_SHOP_TYPE_KEY = "cache:shop:type";
 
     public static final String LOCK_SHOP_KEY = "lock:shop:";
     public static final Long LOCK_SHOP_TTL = 10L;
