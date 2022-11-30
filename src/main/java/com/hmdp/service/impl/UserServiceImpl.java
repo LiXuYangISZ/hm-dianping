@@ -5,6 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hmdp.config.ResourceConfig;
 import com.hmdp.dto.LoginFormDTO;
 import com.hmdp.dto.Result;
 import com.hmdp.dto.UserDTO;
@@ -13,6 +14,7 @@ import com.hmdp.mapper.UserMapper;
 import com.hmdp.service.IUserService;
 import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.RegexUtils;
+import com.hmdp.utils.SendSmsUtil;
 import com.hmdp.utils.SystemConstants;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +43,9 @@ public class UserServiceImpl extends ServiceImpl <UserMapper, User> implements I
     @Resource
     StringRedisTemplate stringRedisTemplate;
 
+    @Resource
+    ResourceConfig config;
+
     @Override
     public Result sendCode(String phone, HttpSession session) {
         // 1.校验手机号
@@ -61,7 +66,7 @@ public class UserServiceImpl extends ServiceImpl <UserMapper, User> implements I
         // phoneNumber[0] = phone;
         // templateParam[0] = code;
         // templateParam[1] = RedisConstants.LOGIN_CODE_TTL.toString();
-        // SendSmsUtil.sendSms(phoneNumber,templateParam);
+        // SendSmsUtil.sendSms(phoneNumber,templateParam,config);
         log.info("发送验证码：" + code);
         return Result.ok();
     }

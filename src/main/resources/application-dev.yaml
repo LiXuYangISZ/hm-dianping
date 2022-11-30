@@ -5,11 +5,11 @@ spring:
     name: hmdp
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://ip:port/hmdp?useSSL=false&serverTimezone=UTC
-    username: username
-    password: password
+    url: jdbc:mysql://127.0.0.1:3306/hmdp?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
   redis:
-    host: ip
+    host: 192.168.174.128
     port: 6379
     lettuce:
       # 连接池的配置
@@ -30,8 +30,8 @@ logging:
 com:
   hmdp:
     resource:
-          sms-secret-id: secret-id
-          sms-secert-key: secert-key
-          sms-sdk-app-id: sdk-app-id
-          sms-sign-name: sign-name
-          sms-template-id: template-id
+          sms-secret-id: AKID1sY3IJ3D9tRlqiQt74lFiwtc5JLAxiNs
+          sms-secret-key: xnUyEF2oQbYFgv287vhV8UkncEdpmV0H
+          sms-sdk-app-id: 1400639446
+          sms-sign-name: 传智健康abcd公众号
+          sms-template-id: 1613565

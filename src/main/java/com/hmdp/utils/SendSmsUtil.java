@@ -6,6 +6,7 @@ package com.hmdp.utils;
  * @Description
  * @date 2022/11/21 22:24
  */
+import com.hmdp.config.ResourceConfig;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.profile.ClientProfile;
 import com.tencentcloudapi.common.profile.HttpProfile;
@@ -24,11 +25,11 @@ public class SendSmsUtil
      * @param phoneNumber 发送的手机号数组
      * @param templateParam 参数1：验证码；参数2：过期时间
      */
-    public static void sendSms(String[] phoneNumber, String[] templateParam){
+    public static void sendSms(String[] phoneNumber, String[] templateParam, ResourceConfig config){
         try{
             // 实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey,此处还需注意密钥对的保密
             // 密钥可前往https://console.cloud.tencent.com/cam/capi网站进行获取
-            Credential cred = new Credential(SystemConstants.SECRET_ID, SystemConstants.SECRET_KEY);
+            Credential cred = new Credential(config.getSmsSecretId(),config.getSmsSecretKey());
             // 实例化一个http选项，可选的，没有特殊需求可以跳过
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("sms.tencentcloudapi.com");
@@ -40,9 +41,9 @@ public class SendSmsUtil
             // 实例化一个请求对象,每个接口都会对应一个request对象
             SendSmsRequest req = new SendSmsRequest();
             // req.se
-            req.setSmsSdkAppId(SystemConstants.SMS_SDK_APP_ID);
-            req.setSignName(SystemConstants.SIGN_NAME);
-            req.setTemplateId(SystemConstants.TEMPLATE_ID);
+            req.setSmsSdkAppId(config.getSmsSdkAppId());
+            req.setSignName(config.getSmsSignName());
+            req.setTemplateId(config.getSmsTemplateId());
             req.setPhoneNumberSet(phoneNumber);
             req.setTemplateParamSet(templateParam);
 
