@@ -58,7 +58,7 @@ public class UserServiceImpl extends ServiceImpl <UserMapper, User> implements I
         String code = RandomUtil.randomNumbers(6);
 
         // 4.保存验证码到Redis
-        stringRedisTemplate.opsForValue().set(RedisConstants.LOGIN_CODE_KEY + phone, code);
+        stringRedisTemplate.opsForValue().set(RedisConstants.LOGIN_CODE_KEY + phone, code,RedisConstants.LOGIN_CODE_TTL,TimeUnit.MINUTES);
 
         // 5.发送验证码
         // String[] phoneNumber = new String[1];

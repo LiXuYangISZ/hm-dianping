@@ -14,7 +14,7 @@ public class RedisConstants {
     /**
      * 登录验证码的过期时间
      */
-    public static final Long LOGIN_CODE_TTL = 2L;
+    public static final Long LOGIN_CODE_TTL = 30L;
 
     /**
      * 保存登录信息的key
@@ -26,8 +26,14 @@ public class RedisConstants {
      */
     public static final Long LOGIN_USER_TTL = 30L;
 
+    /**
+     * 缓存空对象的过期时间
+     */
     public static final Long CACHE_NULL_TTL = 2L;
 
+    /**
+     * 店铺数据的过期时间
+     */
     public static final Long CACHE_SHOP_TTL = 30L;
     /**
      * 商铺详细信息缓存
@@ -39,7 +45,13 @@ public class RedisConstants {
      */
     public static final String CACHE_SHOP_TYPE_KEY = "cache:shop:type";
 
+    /**
+     * 互斥锁的key
+     */
     public static final String LOCK_SHOP_KEY = "lock:shop:";
+    /**
+     * 互斥锁失效时间
+     */
     public static final Long LOCK_SHOP_TTL = 10L;
 
     public static final String SECKILL_STOCK_KEY = "seckill:stock:";
