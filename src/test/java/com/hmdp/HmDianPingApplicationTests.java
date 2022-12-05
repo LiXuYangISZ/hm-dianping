@@ -1,11 +1,9 @@
 package com.hmdp;
 
 import com.hmdp.config.ResourceConfig;
+import com.hmdp.service.IShopService;
 import com.hmdp.utils.SendSmsUtil;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
@@ -15,6 +13,9 @@ class HmDianPingApplicationTests {
 
     @Resource
     private ResourceConfig config;
+
+    @Resource
+    IShopService shopService;
 
     @Test
     public void testSendSms(){
@@ -33,6 +34,14 @@ class HmDianPingApplicationTests {
         System.out.println(config.getSmsSdkAppId());
         System.out.println(config.getSmsSignName());
         System.out.println(config.getSmsTemplateId());
+    }
+
+    /**
+     * 预热
+     */
+    @Test
+    public void testSave2Redis() throws InterruptedException {
+        shopService.saveShop2Redis(1L,30L);
     }
 
 

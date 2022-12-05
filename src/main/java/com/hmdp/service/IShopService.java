@@ -27,4 +27,11 @@ public interface IShopService extends IService<Shop> {
      * @return
      */
     Result update(Shop shop);
+
+    /**
+     * 缓存预热
+     * @param id
+     * @param expireSeconds
+     */
+    void saveShop2Redis(Long id,Long expireSeconds) throws InterruptedException;
 }
