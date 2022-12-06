@@ -165,6 +165,11 @@ public class ShopServiceImpl extends ServiceImpl <ShopMapper, Shop> implements I
         return shop;
     }
 
+    /**
+     * 缓存穿透
+     * @param id
+     * @return
+     */
     private Shop queryWithPassThrough(Long id) {
         // 1.从查询Redis中是否有数据
         String shopJson = stringRedisTemplate.opsForValue().get(RedisConstants.CACHE_SHOP_KEY + id);
