@@ -1,12 +1,18 @@
 package com.hmdp;
 
+import cn.hutool.json.JSONUtil;
 import com.hmdp.config.ResourceConfig;
+import com.hmdp.entity.Shop;
 import com.hmdp.service.IShopService;
+import com.hmdp.utils.CacheClient;
+import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.SendSmsUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 class HmDianPingApplicationTests {
@@ -16,6 +22,12 @@ class HmDianPingApplicationTests {
 
     @Resource
     IShopService shopService;
+
+    @Resource
+    CacheClient cacheClient;
+
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
 
     @Test
     public void testSendSms(){
@@ -42,6 +54,17 @@ class HmDianPingApplicationTests {
     @Test
     public void testSave2Redis() throws InterruptedException {
         shopService.saveShop2Redis(1L,30L);
+    }
+
+    @Test
+    public void testCachePreHotWithMutex(){
+        Shop shop = shopService.getById(1);
+        stringRedisTemplate.opsForValue().set(RedisConstants.CACHE_SHOP_KEY+1, JSONUtil.toJsonStr(shop),20,TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testCachePreHotWithLogicalExpire(){
+        cacheClient.setWithLogicalExpire(RedisConstants.CACHE_SHOP_KEY+1,shopService.getById(1),20L,TimeUnit.SECONDS);
     }
 
 

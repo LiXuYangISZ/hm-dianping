@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author lxy
  * @version 1.0
- * @Description 登录拦截器
+ * @Description Token刷新拦截器
  * @date 2022/11/24 1:12
  */
 public class RefreshTokenInterceptor implements HandlerInterceptor {
