@@ -52,7 +52,10 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
             return Result.fail("库存不足！");
         }
         // 4.扣减库存
-        boolean success = seckillVoucherService.update().setSql("stock = stock - 1").eq("voucher_id", voucherId).update();
+        boolean success = seckillVoucherService.update().setSql("stock = stock - 1").
+                eq("voucher_id", voucherId)
+                .gt("stock",0)
+                .update();
         //这里二次判断的原因在于：高并发场景下会有时间差A在更新库存的时间内，B把最后一件买走了，就会导致A更新失败！
         if(!success){
             return Result.fail("库存不足！");
