@@ -46,7 +46,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
 
         // 2.根据token获取用户信息
         Map <Object, Object> userMap = stringRedisTemplate.opsForHash().entries(RedisConstants.LOGIN_USER_KEY+token);
-        if(userMap==null){
+        if(userMap==null || userMap.size() == 0){
             return true;
         }
 
@@ -66,7 +66,7 @@ public class RefreshTokenInterceptor implements HandlerInterceptor {
      * 在执行完Controller里面的逻辑后执行下面代码
      */    @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        // 移除用户
-        UserHolder.removeUser();
+        // // 移除用户
+        // UserHolder.removeUser();
     }
 }
