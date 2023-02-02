@@ -23,17 +23,30 @@ public class RedissonTest {
     @Resource
     private RedissonClient redissonClient;
 
+    @Resource
+    private RedissonClient redissonClient2;
+
+    @Resource
+    private RedissonClient redissonClient3;
+
     private RLock lock;
 
     @BeforeEach
     void setUp(){
-        lock = redissonClient.getLock("order");
+        RLock lock1 = redissonClient.getLock("order");
+        RLock lock2 = redissonClient2.getLock("order");
+        RLock lock3 = redissonClient3.getLock("order");
+
+        // 创建联锁 multiLock （这里其实用哪个去掉方法都可以，
+        // 通过观察源码发现，底层是new RedissonMultiLock(lock1，lock2,lick3)）
+        lock = redissonClient.getMultiLock(lock1, lock2, lock3);
+        // lock = redissonClient.getLock("order");;
     }
 
     @Test
     void method1() throws InterruptedException {
         // 尝试获取锁
-        boolean isLock = lock.tryLock(1L, TimeUnit.SECONDS);
+        boolean isLock = lock.tryLock(1L, TimeUnit.MINUTES);
         if (!isLock){
             log.error("获取锁失败....1");
             return;
@@ -49,9 +62,10 @@ public class RedissonTest {
 
     }
 
-    void method2(){
+    void method2() throws InterruptedException {
         // 尝试获取锁
-        boolean isLock = lock.tryLock();
+        // boolean isLock = lock.tryLock();
+        boolean isLock = lock.tryLock(1,10000L,TimeUnit.SECONDS);
         if(!isLock){
             log.error("获取锁失败....2");
             return;
