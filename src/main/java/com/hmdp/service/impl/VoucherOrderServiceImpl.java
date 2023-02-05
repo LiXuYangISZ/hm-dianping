@@ -65,7 +65,7 @@ public class VoucherOrderServiceImpl extends ServiceImpl<VoucherOrderMapper, Vou
         Long userId = UserHolder.getUser().getId();
         // 这个代码我们不用了，下面要用Redisson中的分布式锁
         // SimpleRedisLock lock = new SimpleRedisLock("order:" + userId, stringRedisTemplate);
-        RLock lock = redissonClient.getLock("order:" + userId);
+        RLock lock = redissonClient.getLock("lock:order:" + userId);
         boolean isLock = lock.tryLock();
         // 判断是否获取锁成功
         if(!isLock){

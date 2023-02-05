@@ -1,20 +1,35 @@
 package com.hmdp;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.lang.UUID;
 import cn.hutool.json.JSONUtil;
 import com.hmdp.config.ResourceConfig;
+import com.hmdp.dto.Result;
+import com.hmdp.dto.UserDTO;
 import com.hmdp.entity.Shop;
+import com.hmdp.entity.User;
 import com.hmdp.entity.Voucher;
 import com.hmdp.service.IShopService;
+import com.hmdp.service.IUserService;
 import com.hmdp.utils.CacheClient;
 import com.hmdp.utils.RedisConstants;
 import com.hmdp.utils.RedisIdWorker;
 import com.hmdp.utils.SendSmsUtil;
+import lombok.Cleanup;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import javax.annotation.Resource;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,6 +49,9 @@ class HmDianPingApplicationTests {
 
     @Resource
     StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    IUserService userService;
 
     @Resource
     private RedisIdWorker redisIdWorker;
@@ -113,5 +131,36 @@ class HmDianPingApplicationTests {
         System.out.println(JSONUtil.toJsonStr(voucher));
     }
 
+    /**
+     * 在Redis中保存1000个用户信息并将其token写入文件中，方便测试多人秒杀业务
+     */
+    @Test
+    void testMultiLogin() throws IOException {
+        List <User> userList = userService.lambdaQuery().last("limit 1000").list();
+        for (User user : userList) {
+            String token = UUID.randomUUID().toString(true);
+            UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+            Map <String,Object> userMap = BeanUtil.beanToMap(userDTO,new HashMap <>(),
+                    CopyOptions.create().ignoreNullValue()
+                            .setFieldValueEditor((fieldName,fieldValue) -> fieldValue.toString()));
+            String tokenKey = RedisConstants.LOGIN_USER_KEY + token;
+            stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
+            stringRedisTemplate.expire(tokenKey, 60,TimeUnit.MINUTES);
+        }
+        Set <String> keys = stringRedisTemplate.keys(RedisConstants.LOGIN_USER_KEY + "*");
+        @Cleanup FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "\\tokens.txt");
+        @Cleanup BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        assert keys != null;
+        for (String key : keys) {
+            String token = key.substring(RedisConstants.LOGIN_USER_KEY.length());
+            String text = token + "\n";
+            bufferedWriter.write(text);
+        }
+    }
 
+    @Test
+    public void testResult(){
+        Result ok = Result.ok();
+        System.out.println( JSONUtil.toJsonStr(ok));
+    }
 }
