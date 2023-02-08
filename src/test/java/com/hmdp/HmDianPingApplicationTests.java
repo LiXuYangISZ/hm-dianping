@@ -145,7 +145,6 @@ class HmDianPingApplicationTests {
                             .setFieldValueEditor((fieldName,fieldValue) -> fieldValue.toString()));
             String tokenKey = RedisConstants.LOGIN_USER_KEY + token;
             stringRedisTemplate.opsForHash().putAll(tokenKey, userMap);
-            stringRedisTemplate.expire(tokenKey, 60,TimeUnit.MINUTES);
         }
         Set <String> keys = stringRedisTemplate.keys(RedisConstants.LOGIN_USER_KEY + "*");
         @Cleanup FileWriter fileWriter = new FileWriter(System.getProperty("user.dir") + "\\tokens.txt");
