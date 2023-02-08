@@ -23,24 +23,24 @@ public class RedissonTest {
     @Resource
     private RedissonClient redissonClient;
 
-    @Resource
-    private RedissonClient redissonClient2;
-
-    @Resource
-    private RedissonClient redissonClient3;
+    // @Resource
+    // private RedissonClient redissonClient2;
+    //
+    // @Resource
+    // private RedissonClient redissonClient3;
 
     private RLock lock;
 
     @BeforeEach
     void setUp(){
-        RLock lock1 = redissonClient.getLock("order");
-        RLock lock2 = redissonClient2.getLock("order");
-        RLock lock3 = redissonClient3.getLock("order");
+        // RLock lock1 = redissonClient.getLock("order");
+        // RLock lock2 = redissonClient2.getLock("order");
+        // RLock lock3 = redissonClient3.getLock("order");
 
         // 创建联锁 multiLock （这里其实用哪个去掉方法都可以，
         // 通过观察源码发现，底层是new RedissonMultiLock(lock1，lock2,lick3)）
-        lock = redissonClient.getMultiLock(lock1, lock2, lock3);
-        // lock = redissonClient.getLock("order");;
+        // lock = redissonClient.getMultiLock(lock1, lock2, lock3);
+        lock = redissonClient.getLock("order");;
     }
 
     @Test
