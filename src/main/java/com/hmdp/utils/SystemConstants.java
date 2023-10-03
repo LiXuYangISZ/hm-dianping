@@ -10,7 +10,7 @@ public class SystemConstants {
     /**
      * 图片上传文件夹
      */
-    public static final String IMAGE_UPLOAD_DIR = "D:\\lesson\\nginx-1.18.0\\html\\hmdp\\imgs\\";
+    public static final String IMAGE_UPLOAD_DIR = "F:\\nginx-1.18.0\\html\\hmdp\\imgs\\";
 
     /**
      * 用户昵称前缀
