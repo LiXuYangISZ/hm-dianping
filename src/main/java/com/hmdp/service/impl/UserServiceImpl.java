@@ -88,6 +88,8 @@ public class UserServiceImpl extends ServiceImpl <UserMapper, User> implements I
 
         // 4.一致，根据手机号查询对应的用户
         User user = this.query().eq("phone", phone).one();
+        // 删除验证码，防止用户多次使用
+        stringRedisTemplate.delete(RedisConstants.LOGIN_CODE_KEY + phone);
         // 5.判断用户是否存在
         if (user == null) {
             // 6.不存在，则创建新用户，并保存到数据库

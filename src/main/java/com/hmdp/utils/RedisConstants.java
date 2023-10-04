@@ -59,6 +59,10 @@ public class RedisConstants {
      * 秒杀优惠券库存的key
      */
     public static final String SECKILL_STOCK_KEY = "seckill:stock:";
+
+    /**
+     * 博客点赞
+     */
     public static final String BLOG_LIKED_KEY = "blog:liked:";
     public static final String FEED_KEY = "feed:";
     public static final String SHOP_GEO_KEY = "shop:geo:";

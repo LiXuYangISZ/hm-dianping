@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *   用户信息【用户更为详细的信息】
  * </p>
  *
  * @author 虎哥
