@@ -127,6 +127,7 @@ public class UserServiceImpl extends ServiceImpl <UserMapper, User> implements I
     private User createUserWithPhone(String phone) {
         User user = new User();
         user.setPhone(phone);
+        user.setIcon("https://blog-photos-lxy.oss-cn-hangzhou.aliyuncs.com/img/202310051904835.png");
         user.setNickName(SystemConstants.USER_NICK_NAME_PREFIX + RandomUtil.randomString(10));
         this.save(user);
         return user;
