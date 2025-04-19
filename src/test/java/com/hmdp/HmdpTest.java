@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
  * @date 2023/2/6 15:41
  */
 public class HmdpTest {
+    // 测试方法
     @Test
     public void test(){
         Voucher voucher = new Voucher();
